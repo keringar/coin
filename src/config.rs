@@ -9,31 +9,31 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn load_from_file() -> Result<Config> {
-        let mut config_file = File::open("./config.json")
-            .chain_err(|| "Unable to open config file")?;
+    pub fn load_from_file(path: &str) -> Result<Config> {
+        let mut config_file = File::open(path)
+            .chain_err(|| ErrorKind::ConfigLoad(path.to_string()))?;
 
         let mut data = String::new();
         config_file.read_to_string(&mut data)
-            .chain_err(|| "Unable to read config file")?;
+            .chain_err(|| format!("'{}' is not valid", path.to_string()))?;
 
         let config: Config = serde_json::from_str(&data)
-            .chain_err(|| "Unable to parse config file")?;
+            .chain_err(|| ErrorKind::ConfigParse(path.to_string()))?;
 
         Ok(config)
     }
 
-    pub fn write_default_to_file() -> Result<Config> {
+    pub fn write_default_to_file(path: &str) -> Result<Config> {
         let config = Config::default();
         
         let json_str = serde_json::to_string_pretty(&config)
-            .chain_err(|| "Could not format default config file")?;
+            .chain_err(|| ErrorKind::ConfigParse(path.to_string()))?;
 
-        let mut config_file = File::create("./example.json")
-            .chain_err(|| "Could not create default config file")?;
+        let mut config_file = File::create(path)
+            .chain_err(|| ErrorKind::ConfigLoad(path.to_string()))?;
 
         config_file.write_all(&json_str.as_bytes())
-            .chain_err(|| "Could not write default config file")?;
+            .chain_err(|| format!("Default config could not be written as utf-8"))?;
 
         Ok(config)
     }

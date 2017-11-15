@@ -17,7 +17,7 @@ mod error;
 
 fn main() {
     // Load config file and write a default one if it fails
-    let config = match config::Config::load_from_file() {
+    let config = match config::Config::load_from_file("./config.json") {
         Ok(config) => config,
         Err(e) => {
             use error_chain::ChainedError;
@@ -26,7 +26,7 @@ fn main() {
             eprintln!("{}", e.display_chain());
 
             // Print out any errors fron writing the file
-            if let Err(err) = config::Config::write_default_to_file() {
+            if let Err(err) = config::Config::write_default_to_file("./example.json") {
                 eprintln!("{}", &err.display_chain());
             }
             
