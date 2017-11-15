@@ -7,7 +7,7 @@ example.json file to a new file named config.json in the current working directo
 
 ```json
 {
-    "api_key": "secret api key",
+    "api_key": "bot api key",
     "owners": ["owner_id_one", "optional_owners", "etc"]
 }
 ```
