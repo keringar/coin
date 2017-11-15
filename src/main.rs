@@ -11,8 +11,8 @@ extern crate serde_json;
 extern crate websocket;
 
 mod bot;
-mod gdax;
 mod config;
+mod discord;
 mod error;
 
 fn main() {

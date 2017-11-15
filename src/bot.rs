@@ -1,19 +1,19 @@
 use config::Config;
-use gdax::Gdax;
+use discord::Discord;
 use error::*;
 
 pub struct Bot {
     config: Config,
-    gdax: Gdax,
+    discord: Discord,
 }
 
 impl Bot {
-    pub fn new(config: Config) -> Result<Bot> {
-        let gdax = Gdax::connect(&config.api_key)?;
+    pub fn new(config: Config) -> Result<Self> {
+        let discord = Discord::connect(&config.api_key)?;
 
         let bot = Bot {
             config,
-            gdax,
+            discord,
         };
 
         Ok(bot)

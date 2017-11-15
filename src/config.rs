@@ -1,11 +1,14 @@
-use error::*;
 use std::fs::File;
 use std::io::prelude::*;
+
+use error::*;
+use discord::model::*;
 use serde_json;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Config {
     pub api_key: String,
+    pub owners: Vec<UserId>,
 }
 
 impl Config {
@@ -43,6 +46,7 @@ impl Default for Config {
     fn default() -> Config {
         Config {
             api_key: "NOT_SET".to_string(),
+            owners: vec!(),
         }
     }   
 }
